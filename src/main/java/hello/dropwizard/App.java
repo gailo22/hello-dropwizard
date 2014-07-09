@@ -1,27 +1,33 @@
 package hello.dropwizard;
 
+import hello.dropwizard.phonebook.PhonebookConfiguration;
+import hello.dropwizard.phonebook.resources.ContactResource;
 import io.dropwizard.Application;
-import io.dropwizard.Configuration;
 import io.dropwizard.setup.Bootstrap;
 import io.dropwizard.setup.Environment;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-public class App extends Application<Configuration> {
+public class App extends Application<PhonebookConfiguration> {
 	
 	private static final Logger logger = LoggerFactory.getLogger(App.class);
 
 	@Override
-	public void initialize(Bootstrap<Configuration> bootstrap) {
+	public void initialize(Bootstrap<PhonebookConfiguration> b) {
 		
 	}
 
 	@Override
-	public void run(Configuration configuration, Environment environment) throws Exception {
+	public void run(PhonebookConfiguration c, Environment env) throws Exception {
 
 		logger.info("Method App#run called");
-		System.out.println("Hello world, by dropwizzard");
+		
+		for (int i = 0; i < c.getMessageRepetitions(); i++) {
+			System.out.println(c.getMessage());
+		}
+		
+		env.jersey().register(ContactResource.class);
 		
 	}
 	
