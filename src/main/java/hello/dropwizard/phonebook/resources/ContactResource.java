@@ -1,5 +1,7 @@
 package hello.dropwizard.phonebook.resources;
 
+import hello.dropwizard.phonebook.representations.Contact;
+
 import javax.ws.rs.DELETE;
 import javax.ws.rs.FormParam;
 import javax.ws.rs.GET;
@@ -20,7 +22,7 @@ public class ContactResource {
 	@Produces(MediaType.APPLICATION_JSON)
 	public Response getContact(@PathParam("id") int id) {
 		
-		return Response.ok("{contact_id: " + id + ", name: \"John\", phone: \"01020200\"}").build();
+		return Response.ok(new Contact(id, "John", "Doe", "01202030")).build();
 		
 	}
 	
@@ -43,10 +45,9 @@ public class ContactResource {
 	@PUT
 	@Path("/{id}")
 	public Response updateContact(@PathParam("id") int id,
-			@FormParam("name") String name,
-			@FormParam("phone") String phone) {
+			Contact contact) {
 		
-		return Response.ok("{contact_id: " + id + ", name: " + name + ", phone: " + phone + "}").build();
+		return Response.ok(new Contact(id, contact.getFirstname(), contact.getLastname(), contact.getPhone())).build();
 		
 	}
 	
